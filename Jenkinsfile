@@ -11,7 +11,7 @@ pipeline{
         stage("deployment"){
             steps{
                 echo "building the image started and deployment also started "
-                sh "docker compose up "
+                sh "docker-compose up "
                 echo "building and deployment completed"
             }
         }
