@@ -7,9 +7,8 @@ on:
   workflow_dispatch:  # Allows manual triggering of the workflow
 
 jobs:
-  # Lint the HTML file
   lint_html:
-    runs-on: self-hosted  # Use a self-hosted runner
+    runs-on: ubuntu-latest  # Use GitHub's hosted runner (e.g., Ubuntu)
 
     steps:
       - name: Checkout code
@@ -22,11 +21,10 @@ jobs:
       - name: Lint the index.html file
         run: |
           htmlhint index.html  # Lint the HTML file
-          
-  # Manual approval before deployment
+
   approve_deployment:
     needs: lint_html  # This job will run after the linting job
-    runs-on: self-hosted
+    runs-on: ubuntu-latest  # Use hosted runner
     if: success()  # Only run if linting passes
 
     steps:
@@ -40,10 +38,9 @@ jobs:
           channel: '#your-channel'
           message: 'HTML file linting passed. Awaiting approval for production deployment.'
 
-  # Deploy to production
   deploy_to_production:
     needs: approve_deployment  # Wait for manual approval
-    runs-on: self-hosted
+    runs-on: ubuntu-latest  # Use hosted runner
     if: success()  # Only deploy if previous steps succeed
 
     steps:
