@@ -1,0 +1,59 @@
+name: Deploy HTML Workflow
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to the main branch
+  workflow_dispatch:  # Allows manual triggering of the workflow
+
+jobs:
+  # Lint the HTML file
+  lint_html:
+    runs-on: self-hosted  # Use a self-hosted runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install HTMLHint (for linting)
+        run: |
+          npm install -g htmlhint
+
+      - name: Lint the index.html file
+        run: |
+          htmlhint index.html  # Lint the HTML file
+          
+  # Manual approval before deployment
+  approve_deployment:
+    needs: lint_html  # This job will run after the linting job
+    runs-on: self-hosted
+    if: success()  # Only run if linting passes
+
+    steps:
+      - name: Manual approval step
+        run: |
+          echo "Waiting for manual approval to deploy to production."
+
+      - name: Slack Notification
+        uses: slackapi/slack-github-action@v1
+        with:
+          channel: '#your-channel'
+          message: 'HTML file linting passed. Awaiting approval for production deployment.'
+
+  # Deploy to production
+  deploy_to_production:
+    needs: approve_deployment  # Wait for manual approval
+    runs-on: self-hosted
+    if: success()  # Only deploy if previous steps succeed
+
+    steps:
+      - name: Deploy HTML to production server
+        run: |
+          echo "Deploying index.html to production server..."
+          # Add your deployment commands here (e.g., SCP, FTP, etc.)
+
+      - name: Slack Notification
+        uses: slackapi/slack-github-action@v1
+        with:
+          channel: '#your-channel'
+          message: 'HTML file successfully deployed to production.'
