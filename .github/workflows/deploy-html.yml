@@ -40,7 +40,6 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
-
   deploy_to_production:
     needs: approve_deployment  # Wait for manual approval
     runs-on: ubuntu-latest  # Use hosted runner
@@ -57,3 +56,5 @@ jobs:
         with:
           channel: '#your-channel'
           message: 'HTML file successfully deployed to production.'
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
