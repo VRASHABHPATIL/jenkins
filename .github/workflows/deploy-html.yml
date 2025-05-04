@@ -35,9 +35,11 @@ jobs:
       - name: Slack Notification
         uses: slackapi/slack-github-action@v1
         with:
-          botToken: ${{ secrets.SLACK_BOT_TOKEN }}  
-          channel-id: 'C08QDQM6GSK'  
+          channel-id: 'C08QDQM6GSK'
           slack-message: 'HTML file linting passed. Awaiting approval for production deployment.'
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
 
   deploy_to_production:
     needs: approve_deployment  # Wait for manual approval
