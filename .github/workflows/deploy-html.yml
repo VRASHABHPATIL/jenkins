@@ -8,7 +8,7 @@ on:
 
 jobs:
   lint_html:
-    runs-on: ubuntu-latest  # Use GitHub's hosted runner (e.g., Ubuntu)
+    runs-on: [self-hosted, myrunner]
 
     steps:
       - name: Checkout code
