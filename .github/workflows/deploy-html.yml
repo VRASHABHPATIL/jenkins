@@ -55,6 +55,6 @@ jobs:
         uses: slackapi/slack-github-action@v1
         with:
           channel-id: 'C08QDQM6GSK'
-          message: 'HTML file successfully deployed to production.'
+          slack-message: 'HTML file successfully deployed to production.'
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
